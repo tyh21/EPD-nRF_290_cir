@@ -318,41 +318,6 @@ static void DrawTime(Adafruit_GFX *gfx, tm_t *tm, int16_t x, int16_t y, uint16_t
     Draw7Number(gfx, tm->tm_min, x, y, cS, GFX_BLACK, GFX_WHITE, nD);
 }
 
-static void DrawClock(Adafruit_GFX *gfx, tm_t *tm, struct Lunar_Date *Lunar, gui_data_t *data)                        //时钟主界面绘制函数
-{
-    DrawDate(gfx, 10, 14, tm);
-    GFX_setCursor(gfx, 140, 14);
-    GFX_setFont(gfx, u8g2_font_wqy9_t_lunar);
-    GFX_printf(gfx, "星期%s", Lunar_DayString[tm->tm_wday]);
-    GFX_setCursor(gfx, 0, 60);
-    GFX_printf(gfx, "%s%s%s", Lunar_MonthLeapString[Lunar->IsLeap], Lunar_MonthString[Lunar->Month],
-        Lunar_DateString[Lunar->Date]);
-
-    DrawBattery(gfx, 220, 4, data->voltage);
-    DrawTemperature(gfx,260,14, data->temperature);
-
-    GFX_drawFastHLine(gfx, 10, 16, 280, GFX_BLACK);
-    DrawTime(gfx, tm, 80, 30, 4, 2);
-    GFX_drawFastHLine(gfx, 10, 16, 280, GFX_BLACK);
-
-    GFX_setCursor(gfx, 6, 40);
-    GFX_setFont(gfx, u8g2_font_wqy9_t_lunar);
-    GFX_printf(gfx, "%s%s%s年", Lunar_StemStrig[LUNAR_GetStem(Lunar)], Lunar_BranchStrig[LUNAR_GetBranch(Lunar)],
-        Lunar_ZodiacString[LUNAR_GetZodiac(Lunar)]);
-
-    uint8_t day = 0;
-    uint8_t JQday = GetJieQiStr(tm->tm_year + YEAR0, tm->tm_mon + 1, tm->tm_mday, &day);
-    if (day == 0) {
-        GFX_setCursor(gfx, 6, 80);
-        GFX_printf(gfx, "%s", JieQiStr[JQday % 24]);
-    } else {
-        GFX_setCursor(gfx, 6, 90);
-        GFX_printf(gfx, "离%s", JieQiStr[JQday % 24]);
-        GFX_setCursor(gfx, 6, 105);
-        GFX_printf(gfx, "还有%d天", day);
-    }
-}
-
 // Function to draw a rotated rectangle (for clock hands)
 // This function assumes x, y is the pivot point (base of the hand)
 void GFX_fillRectRotated(Adafruit_GFX *gfx, int16_t x, int16_t y, int16_t w, int16_t h, float angle_degrees, uint16_t color) {
@@ -445,6 +410,42 @@ static void DrawAnalogClock(Adafruit_GFX *gfx, tm_t *tm, struct Lunar_Date *Luna
     // Draw a small circle at the center
     GFX_fillCircle(gfx, center_x, center_y, 4, GFX_BLACK);
 }
+
+static void DrawClock(Adafruit_GFX *gfx, tm_t *tm, struct Lunar_Date *Lunar, gui_data_t *data)                        //时钟主界面绘制函数
+{
+    DrawDate(gfx, 10, 14, tm);
+    GFX_setCursor(gfx, 140, 14);
+    GFX_setFont(gfx, u8g2_font_wqy9_t_lunar);
+    GFX_printf(gfx, "星期%s", Lunar_DayString[tm->tm_wday]);
+    GFX_setCursor(gfx, 0, 60);
+    GFX_printf(gfx, "%s%s%s", Lunar_MonthLeapString[Lunar->IsLeap], Lunar_MonthString[Lunar->Month],
+        Lunar_DateString[Lunar->Date]);
+
+    DrawBattery(gfx, 220, 4, data->voltage);
+    DrawTemperature(gfx,260,14, data->temperature);
+
+    GFX_drawFastHLine(gfx, 10, 16, 280, GFX_BLACK);
+    DrawTime(gfx, tm, 80, 30, 4, 2);
+    GFX_drawFastHLine(gfx, 10, 16, 280, GFX_BLACK);
+
+    GFX_setCursor(gfx, 6, 40);
+    GFX_setFont(gfx, u8g2_font_wqy9_t_lunar);
+    GFX_printf(gfx, "%s%s%s年", Lunar_StemStrig[LUNAR_GetStem(Lunar)], Lunar_BranchStrig[LUNAR_GetBranch(Lunar)],
+        Lunar_ZodiacString[LUNAR_GetZodiac(Lunar)]);
+
+    uint8_t day = 0;
+    uint8_t JQday = GetJieQiStr(tm->tm_year + YEAR0, tm->tm_mon + 1, tm->tm_mday, &day);
+    if (day == 0) {
+        GFX_setCursor(gfx, 6, 80);
+        GFX_printf(gfx, "%s", JieQiStr[JQday % 24]);
+    } else {
+        GFX_setCursor(gfx, 6, 90);
+        GFX_printf(gfx, "离%s", JieQiStr[JQday % 24]);
+        GFX_setCursor(gfx, 6, 105);
+        GFX_printf(gfx, "还有%d天", day);
+    }
+}
+
 
 void DrawGUI(gui_data_t *data, buffer_callback draw, display_mode_t mode)
 {
