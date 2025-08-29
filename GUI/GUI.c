@@ -176,11 +176,11 @@ static void DrawTemperature(Adafruit_GFX *gfx, int16_t x, int16_t y, int8_t temp
 static void DrawDate(Adafruit_GFX *gfx, int16_t x, int16_t y, tm_t *tm)                    //日历 显示年月日
 {
     GFX_setCursor(gfx, x, y);
-    GFX_printf_styled(gfx, GFX_RED, GFX_WHITE, u8g2_font_wqy9_t_lunar, "%d", tm->tm_year + YEAR0);
+    GFX_printf_styled(gfx, GFX_BLACK, GFX_WHITE, u8g2_font_wqy9_t_lunar, "%d", tm->tm_year + YEAR0);
     GFX_printf_styled(gfx, GFX_BLACK, GFX_WHITE, u8g2_font_wqy9_t_lunar, "年");
-    GFX_printf_styled(gfx, GFX_RED, GFX_WHITE, u8g2_font_helvB14_tn, "%02d", tm->tm_mon + 1);
+    GFX_printf_styled(gfx, GFX_BLACK, GFX_WHITE, u8g2_font_helvB14_tn, "%02d", tm->tm_mon + 1);
     GFX_printf_styled(gfx, GFX_BLACK, GFX_WHITE, u8g2_font_wqy9_t_lunar, "月");
-    GFX_printf_styled(gfx, GFX_RED, GFX_WHITE, u8g2_font_helvB14_tn, "%02d", tm->tm_mday);
+    GFX_printf_styled(gfx, GFX_BLACK, GFX_WHITE, u8g2_font_helvB14_tn, "%02d", tm->tm_mday);
     GFX_printf_styled(gfx, GFX_BLACK, GFX_WHITE, u8g2_font_wqy9_t_lunar, "日 ");
 }
 
@@ -445,7 +445,6 @@ static void DrawClock(Adafruit_GFX *gfx, tm_t *tm, struct Lunar_Date *Lunar, gui
         GFX_printf(gfx, "还有%d天", day);
     }
 }
-
 
 void DrawGUI(gui_data_t *data, buffer_callback draw, display_mode_t mode)
 {
